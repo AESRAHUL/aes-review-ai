@@ -1,14 +1,5 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const OpenAI = require('openai');
-
-const app = express();
-app.use(cors());
-app.use(bodyParser.json());
-
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 // POST endpoint to generate review
@@ -33,7 +24,7 @@ app.post('/generate-review', async (req, res) => {
         },
       ],
       temperature: 0.7,
-      max_tokens: 100,
+      max_tokens: 100
     });
 
     const review = completion.choices[0].message.content;
