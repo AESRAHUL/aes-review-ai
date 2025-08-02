@@ -6,6 +6,8 @@ import OpenAI from 'openai';
 dotenv.config();
 
 const app = express();
+const cors = require("cors");
+app.use(cors());
 
 // Enable CORS and JSON parsing
 app.use(cors());
