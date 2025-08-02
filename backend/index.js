@@ -1,21 +1,14 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import OpenAI from 'openai';
-
-dotenv.config();
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const OpenAI = require('openai');
 
 const app = express();
-const cors = require("cors");
 app.use(cors());
+app.use(bodyParser.json());
 
-// Enable CORS and JSON parsing
-app.use(cors());
-app.use(express.json());
-
-// Initialize OpenAI with API key from .env
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 // POST endpoint to generate review
@@ -40,7 +33,7 @@ app.post('/generate-review', async (req, res) => {
         },
       ],
       temperature: 0.7,
-      max_tokens: 100
+      max_tokens: 100,
     });
 
     const review = completion.choices[0].message.content;
