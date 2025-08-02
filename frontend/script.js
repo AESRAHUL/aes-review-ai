@@ -1,12 +1,19 @@
-document.getElementById('generateBtn').addEventListener('click', async () => {
-  const appliance = document.getElementById('applianceInput').value;
-  const responseElement = document.getElementById('reviewResult');
+async function generateReview() {
+  const appliance = document.getElementById("applianceSelect").value;
+  const reviewBox = document.getElementById("reviewBox");
+
+  if (!appliance) {
+    alert("Please select an appliance.");
+    return;
+  }
+
+  reviewBox.value = "Generating review, please wait...";
 
   try {
-    const response = await fetch('https://aes-review-ai.onrender.com/generate-review', {
-      method: 'POST',
+    const response = await fetch("https://aes-review-api.onrender.com/generate-review", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({ appliance })
     });
@@ -14,12 +21,19 @@ document.getElementById('generateBtn').addEventListener('click', async () => {
     const data = await response.json();
 
     if (data.review) {
-      responseElement.textContent = data.review;
+      reviewBox.value = data.review;
     } else {
-      responseElement.textContent = 'Failed to generate review.';
+      reviewBox.value = "Error generating review. Please try again.";
     }
   } catch (error) {
+    reviewBox.value = "Network error or API issue. Please try later.";
     console.error(error);
-    responseElement.textContent = 'Error generating review.';
   }
-});
+}
+
+function copyReview() {
+  const reviewBox = document.getElementById("reviewBox");
+  reviewBox.select();
+  document.execCommand("copy");
+  alert("Review copied!");
+}

@@ -1,15 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="style.css" />
   <meta charset="UTF-8">
-  <title>AES AI Review Generator</title>
+  <title>Appliance Review Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+    }
+    h1 {
+      color: #1f2937;
+    }
+    select, button, textarea {
+      margin: 10px 0;
+      padding: 10px;
+      width: 300px;
+      font-size: 16px;
+    }
+    button {
+      cursor: pointer;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    textarea {
+      resize: none;
+      height: 150px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Generate Appliance Review</h1>
-  <input type="text" id="applianceInput" placeholder="Enter appliance name" />
-  <button id="generateBtn">Generate Review</button>
-  <p id="reviewResult"></p>
+  <h1>AES Appliance Review Generator</h1>
+
+  <select id="applianceSelect">
+    <option value="" disabled selected>Select Appliance</option>
+    <option value="AC">AC</option>
+    <option value="Fridge">Fridge</option>
+    <option value="Washing Machine">Washing Machine</option>
+    <option value="Kitchen Chimney">Kitchen Chimney</option>
+    <option value="Microwave Oven">Microwave Oven</option>
+    <option value="Induction Cooker">Induction Cooker</option>
+    <option value="TV">TV</option>
+    <option value="Ceiling Fan">Ceiling Fan</option>
+    <option value="Cooler">Cooler</option>
+    <option value="Mixer Grinder">Mixer Grinder</option>
+    <option value="RO">RO</option>
+    <option value="Water Motor">Water Motor</option>
+  </select>
+
+  <button onclick="generateReview()">Generate Review</button>
+
+  <textarea id="reviewBox" placeholder="Your AI-generated review will appear here..." readonly></textarea>
+
+  <button onclick="copyReview()">Copy Review</button>
+
+  <a href="https://g.page/r/CftxxWmTeF7gEBE/review" target="_blank">
+    <button>Give Google Review</button>
+  </a>
 
   <script src="script.js"></script>
 </body>
