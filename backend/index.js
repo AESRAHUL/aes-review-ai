@@ -4,14 +4,19 @@ import dotenv from 'dotenv';
 import OpenAI from 'openai';
 
 dotenv.config();
+
 const app = express();
+
+// Enable CORS and JSON parsing
 app.use(cors());
 app.use(express.json());
 
+// Initialize OpenAI with API key from .env
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
+// POST endpoint to generate review
 app.post('/generate-review', async (req, res) => {
   const { appliance } = req.body;
 
@@ -29,7 +34,7 @@ app.post('/generate-review', async (req, res) => {
         },
         {
           role: 'user',
-          content: `Generate a short positive review for a ${appliance}.`,
+          content: `Generate a short positive review for a ${appliance} repair service.`,
         },
       ],
       temperature: 0.7,
@@ -39,12 +44,13 @@ app.post('/generate-review', async (req, res) => {
     const review = completion.choices[0].message.content;
     res.json({ review });
   } catch (error) {
-    console.error(error);
+    console.error("Error from OpenAI:", error);
     res.status(500).json({ error: 'Error generating review.' });
   }
 });
 
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
