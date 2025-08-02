@@ -1,8 +1,20 @@
+// backend/index.js
+
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import OpenAI from 'openai';
+
+dotenv.config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-// POST endpoint to generate review
 app.post('/generate-review', async (req, res) => {
   const { appliance } = req.body;
 
@@ -16,7 +28,7 @@ app.post('/generate-review', async (req, res) => {
       messages: [
         {
           role: 'system',
-          content: 'You are an expert in writing customer reviews for home appliances.',
+          content: 'You are an expert in writing customer reviews for home appliance repair services.',
         },
         {
           role: 'user',
@@ -24,18 +36,17 @@ app.post('/generate-review', async (req, res) => {
         },
       ],
       temperature: 0.7,
-      max_tokens: 100
+      max_tokens: 100,
     });
 
     const review = completion.choices[0].message.content;
     res.json({ review });
   } catch (error) {
-    console.error("Error from OpenAI:", error);
+    console.error('Error from OpenAI:', error);
     res.status(500).json({ error: 'Error generating review.' });
   }
 });
 
-// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
